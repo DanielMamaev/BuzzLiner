@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script type="text/javascript" src="/function.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <script type="text/javascript">
+        function handleServerResponse() {
+            clearTimeout(set_real_time);
+            var res = jsonResponse.time.split(":");
+            real_time(hours = res[0], min = res[1], sec = res[2]);
+            document.body.style.backgroundColor = "rgb(" + jsonResponse.rgb + ")";
+        }
+        function set_name(submit) {
+            server = "/name?name=" + val('name');
+            send_request(submit, server);
+            alert("Измененя вступят в силу после перезагрузки устройства.");
+        }
+
+        function set_wifi(submit) {
+            server = "/wifi?wifi=" + val('ssid') + "---" +val('psk');
+            send_request(submit, server);
+            
+        }
+
+        function set_ip_add(submit) {
+            server = "/ip_add?ip_add=" + val('ip_add');
+            send_request(submit, server);
+            alert("Измененя вступят в силу после перезагрузки устройства.");
+        }
+
+        function set_ip_gw(submit) {
+            server = "/ip_gw?ip_gw=" + val('ip_gw');
+            send_request(submit, server);
+            alert("Измененя вступят в силу после перезагрузки устройства.");
+        }
+
+        function set_sm(submit) {
+            server = "/sm?sm=" + val('sm');
+            send_request(submit, server);
+            alert("Измененя вступят в силу после перезагрузки устройства.");
+        }
+
+        function set_baud(submit) {
+            server = "/baud?baud=" + val('baud');
+            send_request(submit, server);
+            alert("Измененя вступят в силу после перезагрузки устройства.");
+        }
+
+        function set_soft_baud(submit) {
+            server = "/soft_baud?soft_baud=" + val('soft_baud');
+            send_request(submit, server);
+            alert("Измененя вступят в силу после перезагрузки устройства.");
+        }
+
+        function set_wifi_pass(submit) {
+            server = "/set_pass?set_pass=" + val('set_pass');
+            send_request(submit, server);
+            alert("Измененя вступят в силу после перезагрузки устройства.");
+        }
+
+        function set_ser_output(submit) {
+            server = "/ser_output";
+            send_request(submit, server);
+        }
+
+        function set_dhcp(submit) {
+            server = "/dhcp";
+            send_request(submit, server);
+        }
+
+        function set_static(submit) {
+            server = "/static";
+            send_request(submit, server);
+        }
+
+        function restart(submit, texts) {
+            if (confirm(texts)) {
+                server = "/restart?device=ok";
+                send_request(submit, server);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function reset(submit, texts) {
+            if (confirm(texts)) {
+                server = "/reset?device=ok";
+                send_request(submit, server);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function res_pass(submit, texts) {
+            if (confirm(texts)) {
+                server = "/res_pass?device=ok";
+                send_request(submit, server);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body onload="load();">
+    <div class="container">
+        <div class="row" style="text-align:center;">
+            <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6" style="background-color:#E4E6E5;">
+                <h1> Settings </h1>
+                <h3>Name receiver</h3>
+                <input id="name" value="" class="form-control" pattern="[0-9A-Z]{4,4}" placeholder="Name receiver">
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_name(this);" type="submit">
+                <hr>
+                <h3>Serial baudrate</h3>
+                <input id="baud" value="" class="form-control" pattern="[0-9]{3,7}" placeholder="Baudrate">
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_baud(this);" type="submit">
+                <hr>              
+                <h3>SoftSerial baudrate</h3>
+                <input id="soft_baud" value="" class="form-control" pattern="[0-9]{3,7}" placeholder="Baudrate">
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_soft_baud(this);" type="submit">
+                <hr>
+                <input class="btn btn-block btn-success" value="Serial output" onclick="set_ser_output(this);"
+                    type="submit">
+                <input class="btn btn-block btn-warning" value="Restart device"
+                    onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
+                <hr>
+
+                <h1> WiFi </h1>
+                
+                <h3>SSID and password</h3>
+                <input id="ssid" value="" class="form-control" placeholder="SSID">
+                <input id="psk" value="" class="form-control" placeholder="Psk">
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_wifi(this);" type="submit">
+                <hr>
+
+                <h3>IP Address</h3>
+                <input id="ip_add" value="" class="form-control" pattern="[0-9.]{7,15}" placeholder="IP Address">
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ip_add(this);" type="submit">
+                <hr>
+                
+                <h3>IP Gateway</h3>
+                <input id="ip_gw" value="" class="form-control" pattern="[0-9.]{7,15}" placeholder="IP Gateway">
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ip_gw(this);" type="submit">
+                <hr>
+                
+                <h3>Submask</h3>
+                <input id="sm" value="" class="form-control" pattern="[0-9.]{7,15}" placeholder="Submask">
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_sm(this);" type="submit">
+                <hr>
+
+                <h3>Set WiFiAP password</h3>
+                <input id="set_pass" value="" class="form-control" pattern="[0-9A-Za-z_]{8,8}" placeholder="Password">
+                <input class="btn btn-block btn-success" value="Сохранить" onclick="set_wifi_pass(this);" type="submit">
+                <hr>
+                
+                
+                
+                
+
+                
+                <input class="btn btn-block btn-success" value="Activate DHCP" onclick="set_dhcp(this);" type="submit">
+                <hr>
+                <input class="btn btn-block btn-success" value="Activate static" onclick="set_static(this);"
+                    type="submit">
+                <hr>
+                <div class="alert alert-dismissible alert-info">
+                    <b>Firmware</b>
+                    <form method="POST" action="/firmware" enctype="multipart/form-data">
+                        <div class="btn-group">
+                            <input type="file" accept=".bin,.bin.gz" class="btn btn-primary btn-xs" name="firmware"
+                                style="height: 25px;">
+                            <input type="submit" class="btn btn-default btn-sm" value="Update Firmware"
+                                onclick="this.value='Подождите...';" style="height: 25px;">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="alert alert-dismissible alert-info">
+                    <b>FileSystem</b>
+                    <form method="POST" action="/firmware" enctype="multipart/form-data">
+                        <div class="btn-group">
+                            <input type="file" class="btn btn-primary btn-xs" name="filesystem" style="height: 25px;">
+                            <input type="submit" class="btn btn-default btn-sm" value="Update FileSystem"
+                                onclick="this.value='Подождите...';" style="height: 25px;">
+                        </div>
+                    </form>
+                </div>
+
+                <hr>
+                <input class="btn btn-block btn-warning" value="Reset WiFi password"
+                    onclick="res_pass(this,'Вы действительно хотите сбросить пароль?');" type="submit">
+                <hr>
+                
+                <input class="btn btn-block btn-warning" value="Reset settings WiFi"
+                    onclick="reset(this,'Вы действительно хотите сбросить настройки WiFi?');" type="submit">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
